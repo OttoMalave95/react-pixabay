@@ -1,26 +1,76 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Buscador from './componentes/Buscador';
+import Resultado from './componentes/Resultado';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    termino: '',
+    imagenes: [],
+    pagina: '',
+  };
+
+  scroll = () => {
+    const elemento = document.querySelector('.jumbotron');
+    elemento.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }
+
+  paginaAnterior = () => {
+    let pagina = this.state.pagina;
+    if (pagina === 1) return null;
+    pagina -= 1;
+    this.setState({ pagina }, () => {
+      this.consultarApi();
+      this.scroll();
+    });
+  };
+
+  paginaSiguiente = () => {
+    let pagina = this.state.pagina;
+    pagina += 1;
+    this.setState({ pagina }, () => {
+      this.consultarApi();
+      this.scroll();
+    });
+  };
+
+  consultarApi = () => {
+    const api_key = '13169517-a0564aef3dd9fa71a87504dbe';
+    const termino = this.state.termino;
+    const cantidad_resultado = 30;
+    const pagina = this.state.pagina;
+    const url = `https://pixabay.com/api/?key=${api_key}&q=${termino}&per_page=${cantidad_resultado}&page=${pagina}`;
+
+    fetch(url)
+      .then(respuesta => respuesta.json())
+      .then(resultado => this.setState({ imagenes: resultado.hits }));
+  };
+
+  datosBusqueda = (termino) => {
+    this.setState({ termino, pagina: 1 }, () => this.consultarApi());
+  };
+
+  render() {
+    return (
+      <div className="app container">
+        <div className="jumbotron">
+          <p className="lead text-center">Buscador de Imágenes</p>
+
+          <Buscador
+            datosBusqueda={this.datosBusqueda}
+          />
+        </div>
+
+        <div className="row justify-content-center">
+          <Resultado
+            imagenes={this.state.imagenes}
+            paginaAnterior={this.paginaAnterior}
+            paginaSiguiente={this.paginaSiguiente}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
