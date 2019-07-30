@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Buscador from './componentes/Buscador';
 import Resultado from './componentes/Resultado';
+import './App.css';
+import { Button } from 'antd';
 
 class App extends Component {
 
@@ -68,6 +70,8 @@ class App extends Component {
             paginaSiguiente={this.paginaSiguiente}
           />
         </div>
+
+        <Button type="primary">Button</Button>
       </div>
     );
   }
