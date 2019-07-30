@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import Buscador from './componentes/Buscador';
 import Resultado from './componentes/Resultado';
 import './App.css';
-import { Button } from 'antd';
+import { Layout } from 'antd';
+
+const { Content, Footer } = Layout;
 
 class App extends Component {
 
@@ -54,25 +57,33 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app container">
-        <div className="jumbotron">
-          <p className="lead text-center">Buscador de Imágenes</p>
+      <Layout>
+        <Buscador datosBusqueda={this.datosBusqueda} />
+        <Content style={{ padding: '20px 50px' }}>
+          <div style={{ background: '#fff', padding: 24, minHeight: 280, borderRadius: 10 }}>Content</div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>React PixaBay ©2019 Creado por Otto Malavé</Footer>
+      </Layout>
 
-          <Buscador
-            datosBusqueda={this.datosBusqueda}
-          />
-        </div>
+      // <div className="app container">
+      //   <div className="jumbotron">
+      //     <p className="lead text-center">Buscador de Imágenes</p>
 
-        <div className="row justify-content-center">
-          <Resultado
-            imagenes={this.state.imagenes}
-            paginaAnterior={this.paginaAnterior}
-            paginaSiguiente={this.paginaSiguiente}
-          />
-        </div>
+      //     <Buscador
+      //       datosBusqueda={this.datosBusqueda}
+      //     />
+      //   </div>
 
-        <Button type="primary">Button</Button>
-      </div>
+      //   <div className="row justify-content-center">
+      //     <Resultado
+      //       imagenes={this.state.imagenes}
+      //       paginaAnterior={this.paginaAnterior}
+      //       paginaSiguiente={this.paginaSiguiente}
+      //     />
+      //   </div>
+
+      //   <Button type="primary">Button</Button>
+      // </div>
     );
   }
 }

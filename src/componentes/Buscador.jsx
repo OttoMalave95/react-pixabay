@@ -1,29 +1,26 @@
 import React, { Component } from 'react';
+import { Input, Col, Row, Layout, Typography } from 'antd';
+
+const { Header } = Layout;
+const { Title } = Typography;
+const { Search } = Input;
 
 class Buscador extends Component {
-    busquedaRef = React.createRef();
-
-    obtenerDatos = (e) => {
-        e.preventDefault();
-
-        const termino = this.busquedaRef.current.value;
-
-        this.props.datosBusqueda(termino);
-    };
-
-    render() { 
-        return ( 
-            <form onSubmit={this.obtenerDatos}>
-                <div className="row">
-                    <div className="form-group col-md-8">
-                        <input ref={this.busquedaRef} type="text" name="buscador" id="buscador" className="form-control form-control-lg" placeholder="Busca tu imagen. Ejemplo: Futbol, Montaña, Perro" />
-                    </div>
-
-                    <div className="form-group col-md-4">
-                        <input type="submit" name="boton-buscar" id="boton-buscar" className="btn btn-lg btn-danger btn-block" value="Buscar..." />
-                    </div>
-                </div>
-            </form>
+    render() {
+        return (
+            <Header>
+                <Title style={{ textAlign: 'center', color: 'gray' }}>Buscador de Imágenes</Title>
+                <Row>
+                    <Col md={24}>
+                        <Search
+                            placeholder="Busca tu imagen. Ejemplo: Futbol, Montaña, Perro"
+                            size="large"
+                            enterButton
+                            onSearch={termino => this.props.datosBusqueda(termino)}
+                        />
+                    </Col>
+                </Row>
+            </Header>
          );
     }
 }
