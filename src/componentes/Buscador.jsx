@@ -11,7 +11,7 @@ class Buscador extends Component {
             <Header>
                 <Title style={{ textAlign: 'center', color: 'gray' }}>Buscador de Imágenes</Title>
                 <Row>
-                    <Col md={24}>
+                    <Col xs={24} sm={24} md={24} lg={24}>
                         <Search
                             placeholder="Busca tu imagen. Ejemplo: Futbol, Montaña, Perro"
                             size="large"

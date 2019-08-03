@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import Buscador from './componentes/Buscador';
 import Resultado from './componentes/Resultado';
 import './App.css';
-import { Layout } from 'antd';
+import { Layout, BackTop, Icon } from 'antd';
 
-const { Content, Footer } = Layout;
+const { Footer } = Layout;
 
 class App extends Component {
 
@@ -13,30 +13,11 @@ class App extends Component {
     termino: '',
     imagenes: [],
     pagina: '',
+    total_imagenes: '',
   };
 
-  scroll = () => {
-    const elemento = document.querySelector('.jumbotron');
-    elemento.scrollIntoView({behavior: 'smooth', block: 'start'});
-  }
-
-  paginaAnterior = () => {
-    let pagina = this.state.pagina;
-    if (pagina === 1) return null;
-    pagina -= 1;
-    this.setState({ pagina }, () => {
-      this.consultarApi();
-      this.scroll();
-    });
-  };
-
-  paginaSiguiente = () => {
-    let pagina = this.state.pagina;
-    pagina += 1;
-    this.setState({ pagina }, () => {
-      this.consultarApi();
-      this.scroll();
-    });
+  cambioPagina = (pagina) => {
+    this.setState({ pagina }, () => this.consultarApi());
   };
 
   consultarApi = () => {
@@ -48,7 +29,7 @@ class App extends Component {
 
     fetch(url)
       .then(respuesta => respuesta.json())
-      .then(resultado => this.setState({ imagenes: resultado.hits }));
+      .then(resultado => this.setState({ imagenes: resultado.hits, total_imagenes: resultado.total }));
   };
 
   datosBusqueda = (termino) => {
@@ -59,31 +40,17 @@ class App extends Component {
     return (
       <Layout>
         <Buscador datosBusqueda={this.datosBusqueda} />
-        <Content style={{ padding: '20px 50px' }}>
-          <div style={{ background: '#fff', padding: 24, minHeight: 280, borderRadius: 10 }}>Content</div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>React PixaBay ©2019 Creado por Otto Malavé</Footer>
+        <Resultado
+          imagenes={this.state.imagenes}
+          pagina={this.state.pagina}
+          total={this.state.total_imagenes}
+          cambioPagina={this.cambioPagina}
+        />
+        <BackTop>
+          <div className="ant-back-top-inner"><Icon type="arrow-up" /></div>
+        </BackTop>
+        <Footer>React PixaBay ©2019 Creado por Otto Malavé</Footer>
       </Layout>
-
-      // <div className="app container">
-      //   <div className="jumbotron">
-      //     <p className="lead text-center">Buscador de Imágenes</p>
-
-      //     <Buscador
-      //       datosBusqueda={this.datosBusqueda}
-      //     />
-      //   </div>
-
-      //   <div className="row justify-content-center">
-      //     <Resultado
-      //       imagenes={this.state.imagenes}
-      //       paginaAnterior={this.paginaAnterior}
-      //       paginaSiguiente={this.paginaSiguiente}
-      //     />
-      //   </div>
-
-      //   <Button type="primary">Button</Button>
-      // </div>
     );
   }
 }

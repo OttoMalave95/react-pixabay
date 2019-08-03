@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Imagen from './Imagen';
-import Paginacion from './Paginacion';
+import { Layout, Row, Pagination } from 'antd';
+
+const { Content } = Layout;
 
 class Resultado extends Component {
     mostrarImagenes = () => {
@@ -10,27 +12,35 @@ class Resultado extends Component {
             :
             (
                 <React.Fragment>
-                    <div className="row">
+                    <Row gutter={16} >
                         {imagenes.map(imagen => (
                             <Imagen
                                 key={imagen.id}
                                 imagen={imagen}
                             />
-                        ) ) }
-                    </div>
-                    <Paginacion
-                        paginaAnterior={this.props.paginaAnterior}
-                        paginaSiguiente={this.props.paginaSiguiente}
-                    />
+                        ))}
+                    </Row>
+                    <Row>
+                        <Pagination 
+                            defaultCurrent={this.props.pagina}
+                            pageSize={30}
+                            total={this.props.total}
+                            onChange={(pagina) => this.props.cambioPagina(pagina)}
+                        />
+                    </Row>
                 </React.Fragment>
             )
     }
 
     render() {
         return (
-            <React.Fragment>
-                {this.mostrarImagenes()}
-            </React.Fragment>
+            <Content style={{ padding: '20px 50px' }}>
+                <div style={{ background: '#fff', padding: 24, minHeight: 280, borderRadius: 10 }}>
+                    <Row type="flex" justify="center">
+                        {this.mostrarImagenes()}
+                    </Row>
+                </div>
+            </Content>
          );
     }
 }

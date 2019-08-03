@@ -2,3 +2,23 @@
     padding: 12px 50px;
     height: auto;
 }
+
+.ant-layout-footer {
+    text-align: center;
+}
+
+.ant-back-top {
+    right: 20px;
+    bottom: 30px;
+}
+
+.ant-back-top-inner {
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    background-color: #001529;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+}

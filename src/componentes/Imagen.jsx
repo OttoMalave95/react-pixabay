@@ -1,20 +1,34 @@
 import React from 'react';
+import { Card, Col, Icon, Avatar } from 'antd';
+
+const { Meta } = Card;
 
 const Imagen = props => {
-    const { previewURL, largeImageURL, likes, tags, views } = props.imagen;
+    const { previewURL, largeImageURL, likes, tags, views, user, userImageURL, type } = props.imagen;
 
     return (
-        <div className="col-sm-12 col-md-4 col-lg-3 mb-4">
-            <div className="card">
-                <img height="150" src={previewURL} alt={tags} className="card-img-top" />
-                <div className="card-body">
-                    <p className="card-text">{likes} Me Gusta</p>
-                    <p className="card-text">{views} Vistas</p>
-
-                    <a href={largeImageURL} className="btn btn-primary btn-block" target="_blank" rel="noopener noreferrer">Ver Imagen</a>
-                </div>
-            </div>
-        </div>
+        <Col span={8} xs={24} sm={24} md={8} lg={8}>
+            <Card
+                style={{ marginBottom: 20 }}
+                cover={
+                    <img
+                        height="150"
+                        alt={tags}
+                        src={previewURL}
+                    />
+                }
+                actions={[
+                    <span><Icon type="like" /> {likes}</span>,
+                    <span><Icon type="eye" /> {views}</span>,
+                    <a href={largeImageURL} target="_blank" rel="noopener noreferrer"><Icon type="select" />Ver Imágen</a>
+                ]}
+            >
+                <Meta
+                    avatar={<Avatar title={user} src={userImageURL} alt={user} />}
+                    title={type}
+                />
+            </Card>
+        </Col>
     )
 }
 
